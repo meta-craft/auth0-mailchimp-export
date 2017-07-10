@@ -9,7 +9,6 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
   var TENANT_DOMAIN = config.TENANT_DOMAIN;
   var USER_SEARCH_MGMT_TOKEN = config.USER_SEARCH_MGMT_TOKEN;
-  var AUTH0_CONNECTION_NAME = config.AUTH0_CONNECTION_NAME;
 
   var deferred = Q.defer();
   var searchCriteria = {

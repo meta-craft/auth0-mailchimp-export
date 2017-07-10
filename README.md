@@ -51,8 +51,7 @@ wt serve build/bundle.js --port 3000 --no-merge \
 --secret AUTH0_CLIENT_ID="YOUR_CLIENT_ID" \
 --secret AUTH0_CLIENT_SECRET="YOUR_CLIENT_SECRET" \
 --secret MAILCHIMP_API_KEY="YOUR_MAILCHIMP_API_KEY" \
---secret MAILCHIMP_LIST_NAME="YOUR_MAILCHIMP_LIST_NAME" \
---secret AUTH0_CONNECTION_NAME="YOUR_AUTH0_CONNECTION_NAME" 
+--secret MAILCHIMP_LIST_NAME="YOUR_MAILCHIMP_LIST_NAME"
 ```
 
 Then, in separate terminal, just `curl 0.0.0.0:3000` to execute.
