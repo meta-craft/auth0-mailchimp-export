@@ -1,12 +1,12 @@
 {
-  "codeUrl": "https://github.com/auth0/auth0-mailchimp-export",
+  "codeUrl": "https://github.com/causelabs/auth0-mailchimp-export",
   "title": "Auth0 MailChimp Export",
   "name": "auth0-mailchimp-export",
   "version": "1.0.0",
-  "author": "auth0",
-  "description": "Allows Auth0 Customers to synchronize their Auth0 User base (those that have an email) with a MailChimp List",
+  "author": "auth0 / CauseLabs",
+  "description": "Allows Auth0 accounts to synchronize their Auth0 user base (e.g., those that have an email address and are verified) with a MailChimp list",
   "type": "cron",
-  "repository": "https://github.com/auth0/auth0-mailchimp-export",
+  "repository": "https://github.com/causelabs/auth0-mailchimp-export",
   "keywords": [
     "auth0",
     "mailchimp",
@@ -15,27 +15,27 @@
   "schedule": "0 */5 * * * *",
   "secrets": {
     "AUTH0_DOMAIN": {
-      "description": "This is the Auth0 Domain",
+      "description": "The Auth0 domain to authorize.",
       "required": true
     },
     "AUTH0_CLIENT_ID": {
-      "description": "This is the Client ID",
+      "description": "The Auth0 client ID to authorize.",
       "required": true
     },
     "AUTH0_CLIENT_SECRET": {
-      "description": "This is the Client Secret",
+      "description": "The Auth0 client secret associated with the client ID above.",
       "required": true
     },
     "MAILCHIMP_API_KEY": {
-      "description": "This is the MailChimp API Key associated with your MailChimp user account. eg. f1b0602xy124d85d8444a5d4e5eed-us14",
+      "description": "The MailChimp API key associated with your MailChimp user account, e.g. f1b0602xy124d85d8444a5d4e5eed-us14",
       "required": true
     },
     "MAILCHIMP_LIST_NAME": {
-      "description": "This is the name of the MailChimp List you wish to export Auth0 User Profiles to. eg. Auth0-DBConn1",
+      "description": "The name of the MailChimp list to which you wish to export Auth0 user profiles, e.g. Auth0-DBConn1",
       "required": true
     },
     "AUTH0_CONNECTION_NAME": {
-      "description": "This is the Auth0 Connection name associated with the user profiles you wish to export",
+      "description": "The Auth0 connection name associated with the user profiles you wish to export.",
       "required": true
     }
   }
