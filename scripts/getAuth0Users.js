@@ -17,7 +17,8 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
     search_engine: 'v2',
     per_page: perPage,
     page: pageNumber,
-    fields: 'email',
+    sort: 'email:1',
+    fields: 'email,given_name,family_name',
     include_fields: 'true'
   };
 
