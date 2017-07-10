@@ -12,7 +12,14 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
   var AUTH0_CONNECTION_NAME = config.AUTH0_CONNECTION_NAME;
 
   var deferred = Q.defer();
-  var searchCriteria = { q: 'identities.connection:"' + AUTH0_CONNECTION_NAME + '"', search_engine: 'v2', per_page: perPage, page: pageNumber, fields: 'email', include_fields: 'true' };
+  var searchCriteria = {
+    q: 'email_verified:true',
+    search_engine: 'v2',
+    per_page: perPage,
+    page: pageNumber,
+    fields: 'email',
+    include_fields: 'true'
+  };
 
   var options = {
     method: 'GET',
