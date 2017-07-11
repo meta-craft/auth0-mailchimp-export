@@ -96,6 +96,7 @@ module.exports =
 	    MAILCHIMP_LIST_NAME: ctx.data.MAILCHIMP_LIST_NAME
 	  };
 
+	  console.log('--- Begin synchronization');
 	  requestMailChimpSync(config, function (err) {
 	    if (err) {
 	      return res.sendStatus(500).send('Error - please see logs for details');
@@ -266,7 +267,7 @@ module.exports =
 
 	  var deferred = Q.defer();
 	  var searchCriteria = {
-	    q: 'email_verified:true',
+	    q: 'email_verified:true AND _exists_:email',
 	    search_engine: 'v2',
 	    per_page: perPage,
 	    page: pageNumber,
@@ -370,9 +371,11 @@ module.exports =
 	    var listId = context.mailChimpList.id;
 	    var users = context.auth0Users;
 
-	    mailchimp.lists_batch_subscribe({
+	    var list = {
 	      id: listId,
-	      batch: users.map(function (user) {
+	      batch: users.filter(function (user) {
+	        return !user.email.includes('+');
+	      }).map(function (user) {
 	        return {
 	          email: {
 	            email: user.email
@@ -387,14 +390,28 @@ module.exports =
 	      double_optin: false,
 	      update_existing: true,
 	      replace_interests: true
-	    }, function (err, res) {
-	      if (err) {
-	        console.error(err);
-	        return callback(err);
+	    };
+
+	    console.log(users.length + ' users retrieved from Auth0');
+	    console.log(list.batch.length + ' users to synchronize with Mailchimp');
+
+	    mailchimp.lists_batch_subscribe(
+	      list,
+	      function (err, res) {
+	        if (err) {
+	          console.error(err);
+	          return callback(err);
+	        }
+	        console.log('Mailchimp batch list update completed successfully');
+
+	        if (res.error_count > 0) {
+	          console.log(res.error_count + ' error(s) encountered:');
+	          console.log(res.errors);
+	        }
+
+	        return callback(null, context)
 	      }
-	      console.log('Batch List update completed successfully');
-	      return callback(null, context)
-	    });
+	    );
 	  };
 	};
 

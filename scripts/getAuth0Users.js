@@ -12,7 +12,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
   var deferred = Q.defer();
   var searchCriteria = {
-    q: 'email_verified:true',
+    q: 'email_verified:true AND _exists_:email',
     search_engine: 'v2',
     per_page: perPage,
     page: pageNumber,

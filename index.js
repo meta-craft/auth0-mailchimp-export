@@ -32,6 +32,7 @@ function job (req, res) {
     MAILCHIMP_LIST_NAME: ctx.data.MAILCHIMP_LIST_NAME
   };
 
+  console.log('--- Begin synchronization');
   requestMailChimpSync(config, function (err) {
     if (err) {
       return res.sendStatus(500).send('Error - please see logs for details');
