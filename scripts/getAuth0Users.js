@@ -6,7 +6,7 @@ var Q = require("q");
 
 
 var getUsers = function (config, allUsers, perPage, pageNumber) {
-
+  console.log('--- - Attempting to retrieve Auth0 users');
   var TENANT_DOMAIN = config.TENANT_DOMAIN;
   var USER_SEARCH_MGMT_TOKEN = config.USER_SEARCH_MGMT_TOKEN;
 
@@ -34,13 +34,19 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
     if (error) {
       return deferred.reject(new Error(error));
     }
+
     var newUsers = JSON.parse(body);
+
     if (newUsers.length > 0) {
       allUsers = R.concat(allUsers, newUsers);
+      console.log('--- -- ' + allUsers.length + ' users retrieved');
       return deferred.resolve(getUsers(config, allUsers, perPage, pageNumber + 1));
     }
+
+    console.log('--- -- All users retrieved');
     return deferred.resolve(allUsers);
   });
+
   return deferred.promise;
 };
 
