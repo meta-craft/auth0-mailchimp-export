@@ -52,7 +52,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
 var getAuth0Users = function (config) {
   return function (callback) {
-    getUsers(config, [], 500, 0).then(function (users) {
+    getUsers(config, [], 100, 0).then(function (users) {
       var totalUsers = users.length;
       console.log('AME: Total number of Auth0 users: ' + totalUsers);
       return callback(null, users);
