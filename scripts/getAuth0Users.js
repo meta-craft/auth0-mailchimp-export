@@ -6,7 +6,7 @@ var Q = require("q");
 
 
 var getUsers = function (config, allUsers, perPage, pageNumber) {
-  console.log('--- - Attempting to retrieve Auth0 users');
+  console.log('AME: Attempting to retrieve Auth0 users');
   var TENANT_DOMAIN = config.TENANT_DOMAIN;
   var USER_SEARCH_MGMT_TOKEN = config.USER_SEARCH_MGMT_TOKEN;
 
@@ -39,11 +39,11 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
     if (newUsers.length > 0) {
       allUsers = R.concat(allUsers, newUsers);
-      console.log('--- -- ' + allUsers.length + ' users retrieved');
+      console.log('AME: ' + allUsers.length + ' users retrieved');
       return deferred.resolve(getUsers(config, allUsers, perPage, pageNumber + 1));
     }
 
-    console.log('--- -- All users retrieved');
+    console.log('AME: User retrieval complete');
     return deferred.resolve(allUsers);
   });
 
@@ -52,9 +52,9 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
 var getAuth0Users = function (config) {
   return function (callback) {
-    getUsers(config, [], 20, 0).then(function (users) {
+    getUsers(config, [], 500, 0).then(function (users) {
       var totalUsers = users.length;
-      console.log('Total number of Auth0 users: ' + totalUsers);
+      console.log('AME: Total number of Auth0 users: ' + totalUsers);
       return callback(null, users);
     }, function (err) {
       console.error('ERROR: ' + err);

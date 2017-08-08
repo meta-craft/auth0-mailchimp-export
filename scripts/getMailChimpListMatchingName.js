@@ -15,7 +15,7 @@ var getMailChimpListMatchingName = function (config, mailchimp) {
         var list = result.data[0];
         var mailChimpListId = list.id;
         var mailChimpListName = list.name;
-        console.log('MailChimp list ID/name: ' + mailChimpListId + ' / ' + mailChimpListName);
+        console.log('AME: MailChimp list ID/name: ' + mailChimpListId + ' / ' + mailChimpListName);
         return callback(null, {mailChimpList: list, auth0Users: users});
       });
   };

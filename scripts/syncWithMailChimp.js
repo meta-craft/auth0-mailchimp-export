@@ -7,13 +7,13 @@ var Q = require("q");
 var syncWithMailChimp = function (config) {
   var MAILCHIMP_API_KEY = config.MAILCHIMP_API_KEY;
   try {
-    console.log('--- - Attempting to connect to Mailchimp API...');
+    console.log('AME: Attempting to connect to MailChimp API');
     var mailchimp = new MailChimpAPI(MAILCHIMP_API_KEY, {version: '2.0'});
   } catch (error) {
     return console.log(error.message);
   }
 
-  console.log('--- - Mailchimp API created');
+  console.log('AME: Mailchimp API created');
 
   var _getAuth0Users = require('./getAuth0Users')(config);
   var _getMailChimpListMatchingName = require('./getMailChimpListMatchingName')(config, mailchimp);
@@ -21,7 +21,7 @@ var syncWithMailChimp = function (config) {
 
   var deferred = Q.defer();
 
-  console.log('--- - Preparing user retrieval');
+  console.log('AME: Preparing user retrieval');
 
   async.waterfall([
       _getAuth0Users,

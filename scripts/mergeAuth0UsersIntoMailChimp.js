@@ -28,8 +28,8 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
       replace_interests: true
     };
 
-    console.log(users.length + ' users retrieved from Auth0');
-    console.log(list.batch.length + ' valid email address users to synchronize with Mailchimp');
+    console.log('AME: ' + users.length + ' users retrieved from Auth0');
+    console.log('AME: ' + list.batch.length + ' valid email address users to synchronize with Mailchimp');
 
     mailchimp.lists_batch_subscribe(
       list,
@@ -38,11 +38,11 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
           console.error(err);
           return callback(err);
         }
-        console.log('Mailchimp batch list update completed successfully');
+        console.log('AME: Mailchimp batch list update completed successfully');
 
         if (res.error_count > 0) {
-          console.log(res.error_count + ' error(s) encountered from Mailchimp:');
-          console.log(res.errors);
+          console.log('AME: ' + res.error_count + ' error(s) encountered from Mailchimp:');
+          console.log('AME: ' + res.errors);
         }
 
         return callback(null, context)
