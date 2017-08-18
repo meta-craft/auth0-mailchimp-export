@@ -34,7 +34,7 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
       replace_interests: true
     };
 
-    var sessions = [], size = 2000, total = complete.length, processed = 0, count = 1;
+    var size = 2000, total = complete.length, processed = 0, count = 1;
     var total_pages = parseInt((complete.length / size), 10) + 1;
 
     console.log('AME: Beginning Mailchimp synchronization (' + total_pages + ' total calls required)');
