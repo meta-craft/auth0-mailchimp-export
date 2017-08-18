@@ -29,7 +29,8 @@ function job (req, res) {
     TENANT_DOMAIN: req.webtaskContext.data.AUTH0_DOMAIN,
     USER_SEARCH_MGMT_TOKEN: req.access_token,
     MAILCHIMP_API_KEY: ctx.data.MAILCHIMP_API_KEY,
-    MAILCHIMP_LIST_NAME: ctx.data.MAILCHIMP_LIST_NAME
+    MAILCHIMP_LIST_NAME: ctx.data.MAILCHIMP_LIST_NAME,
+    UPDATE_DAYS: ctx.data.UPDATE_DAYS
   };
 
   console.log('AME: Begin synchronization');

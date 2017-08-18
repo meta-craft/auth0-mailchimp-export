@@ -27,6 +27,7 @@
     "lodash": "^4.8.2",
     "lru-memoizer": "^1.5.0",
     "mailchimp": "^1.2.0",
+    "moment": "^2.18.1",
     "q": "^1.4.1",
     "ramda": "^0.18.0",
     "request": "^2.67.0",

@@ -3,20 +3,25 @@
 var request = require('request');
 var R = require('ramda');
 var Q = require("q");
+var moment = require('moment');
 
 
 var getUsers = function (config, allUsers, perPage, pageNumber) {
-  console.log('AME: Attempting to retrieve Auth0 users');
   var TENANT_DOMAIN = config.TENANT_DOMAIN;
   var USER_SEARCH_MGMT_TOKEN = config.USER_SEARCH_MGMT_TOKEN;
+  var UPDATE_DATE = config.UPDATE_DAYS !== '*' ? moment().subtract(UPDATE_DAYS, 'days').format('YYYY-MM-DD') : '*';
 
   var deferred = Q.defer();
+  var q = 'email_verified:true AND _exists_:email AND updated_at:[' + UPDATE_DATE + ' TO *]';
+
+  console.log('AME: Executing query: "' + q + '"');
+
   var searchCriteria = {
-    q: 'email_verified:true AND _exists_:email',
+    q: q,
     search_engine: 'v2',
     per_page: perPage,
     page: pageNumber,
-    sort: 'email:1',
+    sort: 'updated_at:-1',
     fields: 'email,given_name,family_name',
     include_fields: 'true'
   };
@@ -30,6 +35,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
       authorization: 'Bearer ' + USER_SEARCH_MGMT_TOKEN
     }
   };
+
   request(options, function (error, response, body) {
     if (error) {
       return deferred.reject(new Error(error));
@@ -52,6 +58,8 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
 var getAuth0Users = function (config) {
   return function (callback) {
+    console.log('AME: Attempting to retrieve Auth0 users');
+
     getUsers(config, [], 100, 0).then(function (users) {
       var totalUsers = users.length;
       console.log('AME: Total number of Auth0 users: ' + totalUsers);
