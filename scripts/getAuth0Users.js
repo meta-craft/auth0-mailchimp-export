@@ -5,16 +5,13 @@ var R = require('ramda');
 var Q = require("q");
 var moment = require('moment');
 
-
 var getUsers = function (config, allUsers, perPage, pageNumber) {
   var TENANT_DOMAIN = config.TENANT_DOMAIN;
   var USER_SEARCH_MGMT_TOKEN = config.USER_SEARCH_MGMT_TOKEN;
-  var UPDATE_DATE = config.UPDATE_DAYS !== '*' ? moment().subtract(UPDATE_DAYS, 'days').format('YYYY-MM-DD') : '*';
+  var UPDATE_DATE = config.UPDATE_DAYS !== '*' ? moment().subtract(config.UPDATE_DAYS, 'days').format('YYYY-MM-DD') : '*';
 
   var deferred = Q.defer();
   var q = 'email_verified:true AND _exists_:email AND updated_at:[' + UPDATE_DATE + ' TO *]';
-
-  console.log('AME: Executing query: "' + q + '"');
 
   var searchCriteria = {
     q: q,
@@ -45,7 +42,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
 
     if (newUsers.length > 0) {
       allUsers = R.concat(allUsers, newUsers);
-      console.log('AME: ' + allUsers.length + ' users retrieved');
+      console.log('AME: Executing query: "' + q + '"; retrieved ' + allUsers.length + ' users');
       return deferred.resolve(getUsers(config, allUsers, perPage, pageNumber + 1));
     }
 

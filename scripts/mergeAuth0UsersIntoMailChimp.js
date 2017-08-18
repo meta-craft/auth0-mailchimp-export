@@ -53,7 +53,7 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
 
             processed += size;
 
-            console.log('AME: Mailchimp batch list update completed successfully; processed ' + processed + '/' + total + ' records');
+            console.log('AME: Mailchimp batch list update completed successfully; processed ' + (processed < total ? processed : total) + '/' + total + ' records');
 
             if (res.error_count > 0) {
               console.log('AME: ' + res.error_count + ' error(s) encountered from Mailchimp:' + JSON.stringify(res.errors));
