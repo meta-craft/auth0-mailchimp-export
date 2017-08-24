@@ -12,10 +12,6 @@ The MailChimp features and integrations allow you to send marketing emails, auto
 For further information on MailChimp, please see https://mailchimp.com/about/
 This extension was inspired by this [mailchimp forum post](https://auth0.com/forum/t/synching-auth0-users-to-mailchimp/831) by Eugenio.
 
-## TODO 
-
-Review and address the Issues raised as part of code review.
-
 ## Configure Webtask
 
 If you haven't configured Webtask on your machine, run this first:
@@ -25,7 +21,7 @@ npm i -g wt-cli
 wt init
 ```
 
-> Requires at least node 4.2.2 - if you're running multiple version of node make sure to load the right version, e.g. "nvm use 4.2.2"
+> Requires at least node 4.2.2. If you're running multiple version of node, make sure to load the right version, e.g. `nvm use 4.2.2`
 
 ## Running Locally
 
@@ -37,7 +33,7 @@ To run the sample locally:
 ```javascript
 {
 	"audience": "https://YOUR_TENANT.auth0.com/api/v2/",
-	"client_id":"YOUR_CLIENT_ID",
+	"client_id": "YOUR_CLIENT_ID",
 	"scope": ["read:users", "read:user_idp_tokens"]
 }
 ```
@@ -51,7 +47,8 @@ wt serve build/bundle.js --port 3000 --no-merge \
 --secret AUTH0_CLIENT_ID="YOUR_CLIENT_ID" \
 --secret AUTH0_CLIENT_SECRET="YOUR_CLIENT_SECRET" \
 --secret MAILCHIMP_API_KEY="YOUR_MAILCHIMP_API_KEY" \
---secret MAILCHIMP_LIST_NAME="YOUR_MAILCHIMP_LIST_NAME"
+--secret MAILCHIMP_LIST_NAME="YOUR_MAILCHIMP_LIST_NAME" \
+--secret UPDATE_DAYS="1"
 ```
 
 Then, in a separate terminal, just `curl 0.0.0.0:3000` to execute.
@@ -68,6 +65,8 @@ Note: For more information about how to get `your_tenant_profile`, click [here](
 4. Click on `continue`
 5. Finally, click on `install`
 
+> Note: do not specify `*` for the `UPDATE_DAYS` parameter when running on Auth0 if your userbase is large. The script will prematurely terminate due to Auth0's Webtask timeout restrictions if the script takes longer than 30 seconds to execute.
+
 ## Usage
 
 Go to your MailChimp account and inspect the List (Lists -> List Name).
@@ -77,7 +76,7 @@ Here you will see a synchronized list of email users that correspond to those de
 - Have verified their email address
 - Their email address does not contain a "+" symbol
 
-You can retrieve your MailChimp API key from (Account -> Extras -> API Keys)
+You can retrieve your MailChimp API key from (Account -> Extras -> API Keys).
 
 For information on getting started with MailChimp API documentation, please refer to:
 
