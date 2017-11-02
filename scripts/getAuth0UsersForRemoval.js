@@ -11,7 +11,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
   var UPDATE_DATE = config.UPDATE_DAYS !== '*' ? moment().subtract(config.UPDATE_DAYS, 'days').format('YYYY-MM-DD') : '*';
 
   var deferred = Q.defer();
-  var q = 'email_verified:true AND _exists_:email AND _exists_:user_metadata.exclude_from_mailchimp_synchronization AND updated_at:[' + UPDATE_DATE + ' TO *]';
+  var q = 'email_verified:true AND _exists_:email AND email_verified:true AND _exists_:email AND user_metadata.exclude_from_mailchimp_synchronization:[* TO *] AND updated_at:[' + UPDATE_DATE + ' TO *]';
 
   var searchCriteria = {
     q: q,
