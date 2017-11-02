@@ -1,37 +1,30 @@
 'use strict';
 
-var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
+var unsubscribeAuth0UsersFromMailchimp = function (config, mailchimp) {
   return function (context, callback) {
 
-    // Upload users (add new or update existing ones)
+    // Remove users (existing ones)
     var listId = context.mailChimpList.id;
     var users = context.users;
 
-    console.log('AME: ' + users.length + ' users retrieved from Auth0');
+    console.log('AME: ' + users.length + ' users retrieved from Auth0 for removal');
 
     var complete = users.filter(function (user) {
       return !user.email.includes('+');
     }).map(function (user) {
       return {
-        email: {
-          email: user.email
-        },
-        email_type: 'text',
-        merge_vars: {
-          'FNAME': user.given_name || '',
-          'LNAME': user.family_name || ''
-        }
+        email: user.email
       };
     });
 
-    console.log('AME: ' + complete.length + ' valid email address users to synchronize with Mailchimp');
+    console.log('AME: ' + complete.length + ' valid email address users to remove from Mailchimp');
 
     var list = {
       id: listId,
       batch: [],
-      double_optin: false,
-      update_existing: true,
-      replace_interests: true
+      delete_member: false,
+      send_goodbye: false,
+      send_notify: false
     };
 
     var size = 2000, total = complete.length, processed = 0, count = 1;
@@ -43,7 +36,7 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
         list.batch = complete.splice(start, size);
 
         console.log('AME: Synchronizing with Mailchimp, please wait (' + count + '/' + total_pages + ') ...');
-        mailchimp.lists_batch_subscribe(
+        mailchimp.lists_batch_unsubscribe(
           list,
           function (err, res) {
             if (err) {
@@ -53,7 +46,7 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
 
             processed += size;
 
-            console.log('AME: Mailchimp batch list update completed successfully; processed ' + (processed < total ? processed : total) + '/' + total + ' records');
+            console.log('AME: Mailchimp batch list removal completed successfully; processed ' + (processed < total ? processed : total) + '/' + total + ' records');
 
             if (res.error_count > 0) {
               console.log('AME: ' + res.error_count + ' error(s) encountered from Mailchimp:' + JSON.stringify(res.errors));
@@ -73,4 +66,4 @@ var mergeAuth0UsersIntoMailChimp = function (config, mailchimp) {
   };
 };
 
-module.exports = mergeAuth0UsersIntoMailChimp;
+module.exports = unsubscribeAuth0UsersFromMailchimp;
