@@ -27,6 +27,7 @@ var syncWithMailChimp = function (config) {
 
   async.waterfall([
       _getAuth0Users,
+      _getMailChimpListMatchingName,
       _mergeAuth0UsersIntoMailChimp,
       _getAuth0UsersForRemoval,
       _getMailChimpListMatchingName,
