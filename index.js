@@ -3,6 +3,7 @@ var app = express();
 var memoizer = require('lru-memoizer');
 var Request = require('superagent');
 var syncWithMailChimp = require('./scripts/syncWithMailChimp');
+var removalSyncWithMailChimp = require('./scripts/removalSyncWithMailChimp');
 var metadata = require('./webtask.json');
 
 function job (req, res) {
@@ -39,13 +40,29 @@ function job (req, res) {
       return res.sendStatus(500).send('Error - please see logs for details');
     }
 
-    console.log('AME: Synchronization complete')
-    return res.status(200).send('All done!');
+    console.log('AME: Requesting removal of protected email addresses');
+
+    requestMailChimpRemovalSync(config, function (err2) {
+      if (err) {
+        return res.sendStatus(500).send('Error - please see logs for details');
+      }
+
+      console.log('AME: Synchronization complete')
+      return res.status(200).send('All done!');
+    });
   });
 }
 
 function requestMailChimpSync (config, cb) {
   syncWithMailChimp(config).then(function () {
+    return cb();
+  }, function (err) {
+    return cb(err);
+  } );
+}
+
+function requestMailChimpRemovalSync (config, cb) {
+  removalSyncWithMailChimp(config).then(function () {
     return cb();
   }, function (err) {
     return cb(err);

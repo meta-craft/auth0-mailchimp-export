@@ -4,7 +4,7 @@ var MailChimpAPI = require('mailchimp').MailChimpAPI;
 var async = require('async');
 var Q = require("q");
 
-var syncWithMailChimp = function (config) {
+var removalSyncWithMailChimp = function (config) {
   var MAILCHIMP_API_KEY = config.MAILCHIMP_API_KEY;
   try {
     console.log('AME: Attempting to connect to MailChimp API');
@@ -16,17 +16,17 @@ var syncWithMailChimp = function (config) {
   console.log('AME: Mailchimp API created');
 
   var _getMailChimpListMatchingName = require('./getMailChimpListMatchingName')(config, mailchimp);
-  var _getAuth0Users = require('./getAuth0Users')(config);
-  var _mergeAuth0UsersIntoMailChimp = require('./mergeAuth0UsersIntoMailChimp')(config, mailchimp);
+  var _getAuth0UsersForRemoval = require('./getAuth0UsersForRemoval')(config);
+  var _unsubscribeAuth0UsersFromMailChimp = require('./unsubscribeAuth0UsersFromMailChimp')(config, mailchimp);
 
   var deferred = Q.defer();
 
   console.log('AME: Preparing user retrieval and synchronization');
 
   async.waterfall([
-      _getAuth0Users,
+      _getAuth0UsersForRemoval,
       _getMailChimpListMatchingName,
-      _mergeAuth0UsersIntoMailChimp,
+      _unsubscribeAuth0UsersFromMailChimp
     ],
     function (err) {
       if (err) {
@@ -39,4 +39,4 @@ var syncWithMailChimp = function (config) {
   return deferred.promise;
 };
 
-module.exports = syncWithMailChimp;
+module.exports = removalSyncWithMailChimp;

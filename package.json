@@ -1,6 +1,6 @@
 {
   "name": "auth0-mailchimp-export",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Allows Auth0 Customers to synchronize their Auth0 User base (those that have an email) with a MailChimp List",
   "scripts": {
     "bundle": "webpack -p --config webpack.config.js"
