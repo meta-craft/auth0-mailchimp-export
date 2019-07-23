@@ -1,56 +1,39 @@
 var Request = require('request-promise');
 var Webpack = require('webpack');
 var _       = require('lodash');
+var path    = require('path');
 
-var LIST_MODULES_URL = 'https://webtask.it.auth0.com/api/run/wt-tehsis-gmail_com-1?key=eyJhbGciOiJIUzI1NiIsImtpZCI6IjIifQ.eyJqdGkiOiJmZGZiOWU2MjQ0YjQ0YWYyYjc2YzAwNGU1NjgwOGIxNCIsImlhdCI6MTQzMDMyNjc4MiwiY2EiOlsiZDQ3ZDNiMzRkMmI3NGEwZDljYzgwOTg3OGQ3MWQ4Y2QiXSwiZGQiOjAsInVybCI6Imh0dHA6Ly90ZWhzaXMuZ2l0aHViLmlvL3dlYnRhc2tpby1jYW5pcmVxdWlyZS90YXNrcy9saXN0X21vZHVsZXMuanMiLCJ0ZW4iOiIvXnd0LXRlaHNpcy1nbWFpbF9jb20tWzAtMV0kLyJ9.MJqAB9mgs57tQTWtRuZRj6NCbzXxZcXCASYGISk3Q6c';
-
-module.exports = Request.get(LIST_MODULES_URL, { json: true }).then(function (data) {
-  var modules = data.modules;
-
-  return {
-    entry: './webtask',
-    output: {
-      path: './build',
-      filename: 'bundle.js',
-      library: true,
-      libraryTarget: 'commonjs2',
-    },
-    module: {
-      loaders: [{
-        test: /\.json?$/,
-        loader: 'json'
-      }]
-    },
-    externals: _(modules).reduce(function (acc, module) {
-      if (module.name === 'bluebird') {
-        return _.set(acc, module.name, false);
-      }
-        return _.set(acc, module.name, true);
-    }, {
-      // Not provisioned via require
-      'auth0-api-jwt-rsa-validation': true,
-      'auth0-authz-rules-api': true,
-      'auth0-oauth2-express': true,
-      'auth0-sandbox-ext': true,
-      'detective': true,
-      'sandboxjs': true,
-      'webtask-tools': true
-    }),
-    plugins: [
-      new Webpack.optimize.DedupePlugin()
-    ],
-    resolve: {
-      modulesDirectories: ['node_modules'],
-      root: __dirname,
-      alias: {},
-    },
-    node: {
-      console: false,
-      global: false,
-      process: false,
-      Buffer: false,
-      __filename: false,
-      __dirname: false
-    }
-  };
-});
+module.exports = {    
+  mode: 'production',
+  entry: './webtask',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',    
+    libraryTarget: 'commonjs2'
+  },  
+  externals: [
+    'net',
+    'fs',
+    'tls',
+    // Not provisioned via require
+    'auth0-api-jwt-rsa-validation',
+    'auth0-authz-rules-api',
+    'auth0-oauth2-express',
+    'auth0-sandbox-ext',
+    'detective',
+    'sandboxjs',
+    'webtask-tools'
+  ],
+  resolve: {
+    modules: ['node_modules'],    
+    alias: {},
+  },
+  node: {
+    console: false,
+    global: false,
+    process: false,
+    Buffer: false,
+    __filename: false,
+    __dirname: false
+  }
+};
