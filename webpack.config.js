@@ -12,6 +12,14 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },  
   externals: [
+    'q',
+    'async',
+    'express',
+    'lru-memoizer',
+    'mailchimp',
+    'ramda',
+    'request',
+    'superagent',
     'net',
     'fs',
     'tls',
