@@ -38,10 +38,6 @@
       "description": "The number of days back from job instantiation date to retrieve users (default: 1). Use * for all records (but note that this will timeout if executed on Auth0; see README.md for more information).",
       "required": true,
       "default": 1
-    },
-    "auth0": {
-      "createClient": true,      
-      "scopes": "read:users read:user_idp_tokens read:users_app_metadata"
     }
   }
 }
