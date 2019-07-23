@@ -19,7 +19,7 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
     per_page: perPage,
     page: pageNumber,
     sort: 'updated_at:-1',
-    fields: 'email,given_name,family_name',
+    fields: 'email,name',
     include_fields: 'true'
   };
 
@@ -41,6 +41,17 @@ var getUsers = function (config, allUsers, perPage, pageNumber) {
     var newUsers = JSON.parse(body);
 
     if (newUsers.length > 0) {
+      newUsers.forEach(user => {
+        const name = user.name
+        if (name && name.length > 0) {
+          delete user.name          
+          user['given_name'] = name.split(' ').splice(0, 1)[0]
+          user['family_name'] = name.split(' ').splice(1).join(' ')
+        } else {
+          return user
+        }
+      })
+      
       allUsers = R.concat(allUsers, newUsers);
       console.log('AME: Executing query: "' + q + '"; retrieved ' + allUsers.length + ' users');
       return deferred.resolve(getUsers(config, allUsers, perPage, pageNumber + 1));
