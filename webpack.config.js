@@ -1,9 +1,8 @@
-var Request = require('request-promise');
 var Webpack = require('webpack');
 var _       = require('lodash');
 var path    = require('path');
 
-module.exports = {    
+module.exports = {  
   mode: 'production',
   entry: './webtask',
   output: {
@@ -23,6 +22,7 @@ module.exports = {
     'net',
     'fs',
     'tls',
+    'moment',
     // Not provisioned via require
     'auth0-api-jwt-rsa-validation',
     'auth0-authz-rules-api',
