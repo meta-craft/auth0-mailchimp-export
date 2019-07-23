@@ -1,12 +1,12 @@
 {
-  "codeUrl": "https://github.com/causelabs/auth0-mailchimp-export",
+  "codeUrl": "https://github.com/meta-craft/auth0-mailchimp-export",
   "title": "Auth0 MailChimp Export",
   "name": "auth0-mailchimp-export",
-  "version": "1.4.0",
-  "author": "Auth0 / CauseLabs",
+  "version": "1.5.0",
+  "author": "Auth0 / CauseLabs / Meta Craft",
   "description": "Allows Auth0 accounts to synchronize their Auth0 user base (e.g., those that have an email address and are verified) with a MailChimp list",
   "type": "cron",
-  "repository": "https://github.com/causelabs/auth0-mailchimp-export",
+  "repository": "https://github.com/meta-craft/auth0-mailchimp-export",
   "keywords": [
     "auth0",
     "mailchimp",
