@@ -17,6 +17,7 @@ var syncWithMailChimp = function (config) {
 
   var _getMailChimpListMatchingName = require('./getMailChimpListMatchingName')(config, mailchimp);
   var _getAuth0Users = require('./getAuth0Users')(config);
+  var _getMailChimpUsers = require('./getMailChimpUsers')(mailchimp);
   var _mergeAuth0UsersIntoMailChimp = require('./mergeAuth0UsersIntoMailChimp')(config, mailchimp);
 
   var deferred = Q.defer();
@@ -26,6 +27,7 @@ var syncWithMailChimp = function (config) {
   async.waterfall([
       _getAuth0Users,
       _getMailChimpListMatchingName,
+      _getMailChimpUsers,
       _mergeAuth0UsersIntoMailChimp,
     ],
     function (err) {
