@@ -71,7 +71,6 @@ const unsubscribe = (mailchimp, listId, users) => {
   var synchronizeToMailchimp = function(start) {
     list.batch = users.splice(start, size);
 
-    console.log(list.batch)
     console.log('AME: Unsubscribing from Mailchimp, please wait (' + count + '/' + total_pages + ') ...');
 
     mailchimp.lists_batch_unsubscribe(
